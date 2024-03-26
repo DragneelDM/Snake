@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GridSystem : MonoBehaviour
@@ -22,7 +21,7 @@ public class GridSystem : MonoBehaviour
             {
                 Debug.DrawLine(GetWorldPosition(gridWidth, gridHeight), GetWorldPosition(gridWidth, gridHeight + 1), Color.white, 100f);
                 Debug.DrawLine(GetWorldPosition(gridWidth, gridHeight), GetWorldPosition(gridWidth + 1, gridHeight), Color.white, 100f);
-                Instantiate(cell, GetWorldPosition(gridWidth, gridHeight), Quaternion.identity, transform);
+                Instantiate(cell, GetWorldPosition(gridWidth, gridHeight), cell.transform.rotation, transform);
             }
         }
 
@@ -44,47 +43,47 @@ public class GridSystem : MonoBehaviour
         return new Vector3(width, height) * _cellSize;
     }
 
-    public SnakeCoordinates SetSnakeCoordinates(Vector2Int direction)
+    public Coordinates SetCoordinates(Vector2Int currentPosition)
     {
-        Vector2Int correctedValue;
-        Vector3 newPostion;
+        Vector2Int clampedPosition;
+        Vector3 gridPostion;
 
-        // Wrapping the Snake within Screen. Each if corresponding with each boundary
-        if (direction.x % _width == 0 && direction.x != 0)
+        // Wrapping the Snake within Screen. Each if statement corresponds with each boundary
+        if (currentPosition.x % _width == 0 && currentPosition.x != 0)
         {
-            direction.x -= _width;
+            currentPosition.x -= _width;
         }
-        if (direction.y % _height == 0 && direction.y != 0)
+        if (currentPosition.y % _height == 0 && currentPosition.y != 0)
         {
-            direction.y -= _height;
+            currentPosition.y -= _height;
         }
-        if(direction.x < 0)
+        if(currentPosition.x < 0)
         {
             int lastRow = _width - 1;
-            direction.x = lastRow;
+            currentPosition.x = lastRow;
         }
-        if(direction.y < 0)
+        if(currentPosition.y < 0)
         {
             int lastColumn = _height - 1;
-            direction.y = lastColumn;
+            currentPosition.y = lastColumn;
         }
 
-        correctedValue = new Vector2Int(direction.x, direction.y);
-        newPostion = new Vector3(direction.x, direction.y) * _cellSize;
+        clampedPosition = new Vector2Int(currentPosition.x, currentPosition.y);
+        gridPostion = new Vector3(currentPosition.x, currentPosition.y) * _cellSize;
 
-        return new SnakeCoordinates(correctedValue, newPostion);
+        return new Coordinates(clampedPosition, gridPostion);
     }
 }
 
-public struct SnakeCoordinates
+public struct Coordinates
 {
-    public Vector2Int CorrectedValue;
-    public Vector3 NewPostion;
+    public Vector2Int clampedPosition;
+    public Vector3 gridPosition;
 
-    public SnakeCoordinates(Vector2Int correctedValues, Vector3 newPostions)
+    public Coordinates(Vector2Int correctedValues, Vector3 newPostions)
     {
-        CorrectedValue = correctedValues;
-        NewPostion = newPostions;
+        clampedPosition = correctedValues;
+        gridPosition = newPostions;
     }
 
 }
