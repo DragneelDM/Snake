@@ -1,34 +1,28 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Snaketail : MonoBehaviour
 {
     private Vector2Int _position;
-    private Vector2Int _currentDirection;
-    private Vector2Int _nextDirection;
-    private GridSystem _grid;
-
-    public void setPosition(Vector2Int position)
+    private Vector2Int _lastDirection = Vector2Int.up;
+    private Dictionary<Vector2Int, string> _directionTriggerMap = new()
     {
-        _position = position;
-    }
+        { Vector2Int.up, StringConsts.UP },
+        { Vector2Int.left, StringConsts.LEFT },
+        { Vector2Int.down, StringConsts.DOWN },
+        { Vector2Int.right, StringConsts.RIGHT }
+    };
 
-    public void Move(Vector2Int direction)
+    [SerializeField] Animator _animator;
+
+    public void Move(Vector3 position, Vector2Int direction)
     {
-        _nextDirection = direction;
-        if(_currentDirection != _nextDirection)
+        if(_directionTriggerMap.TryGetValue(direction, out string trigger))
         {
-            
+            _animator.SetTrigger(trigger);
         }
-        _position += direction;
-
-        Coordinates updated = _grid.SetCoordinates(_position);
-
-        _position = updated.clampedPosition;
-        transform.position = updated.gridPosition;
-    }
-
-    public void SetGrid(GridSystem grid)
-    {
-        _grid = grid;
+        
+        _lastDirection = direction;
+        transform.position = position;
     }
 }

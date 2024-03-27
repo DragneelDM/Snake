@@ -3,75 +3,76 @@ using UnityEngine;
 
 public class Snakebody : MonoBehaviour
 {
+    // References
     [SerializeField] private Animator _animator;
-    [HideInInspector] public Snaketail SnakeTail;
-    private Vector2Int _position;
+    [SerializeField] private Snaketail _snakeTail;
+    private Snakebody _nextBody;
+
+    // Directions
     private Vector2Int _lastDirection = Vector2Int.up;
-    private GridSystem _grid;
-    public bool IsFirst = false;
-    private int _snakeTailOffset = 1;
 
-    private void Start()
+    // Saved all possible Rotations
+    private Dictionary<(Vector2Int, Vector2Int), string> _directionTriggerMap = new()
     {
-        if (IsFirst)
+        {(Vector2Int.up, Vector2Int.right), StringConsts.RUP},
+        {(Vector2Int.up, Vector2Int.left), StringConsts.LUP},
+        {(Vector2Int.down, Vector2Int.right), StringConsts.RDOWN},
+        {(Vector2Int.down, Vector2Int.left), StringConsts.LDOWN},
+        {(Vector2Int.left, Vector2Int.up), StringConsts.RDOWN},
+        {(Vector2Int.left, Vector2Int.down), StringConsts.RUP},
+        {(Vector2Int.right, Vector2Int.up), StringConsts.LDOWN},
+        {(Vector2Int.right, Vector2Int.down), StringConsts.LUP}
+    };
+
+    // Boolean
+    private bool _isLast = false;
+
+    public void Move(Vector3 position, Vector2Int direction)
+    {
+        if (_directionTriggerMap.TryGetValue((_lastDirection, direction), out string trigger))
         {
-            CreateTail();
+            _animator.SetTrigger(trigger);
         }
-    }
 
-    private void CreateTail()
-    {
-        Vector2Int bodyPosition = new(_position.x, _position.y - _snakeTailOffset);
-        Coordinates tailCoordinates = _grid.SetCoordinates(bodyPosition);
-        Snaketail tempref = Instantiate(SnakeTail, tailCoordinates.gridPosition, transform.rotation);
-
-        tempref.SetGrid(_grid);
-    }
-
-    public void setPosition(Vector2Int position)
-    {
-        _position = position;
-    }
-
-    public void Move(Vector2Int position, Vector2Int direction)
-    {
-        if (direction != _lastDirection)
+        if (direction == _lastDirection)
         {
-            // it is either up or down
-            if (_lastDirection == Vector2Int.up && direction == Vector2Int.right)
+            if (direction == Vector2Int.up || direction == Vector2Int.down)
             {
-                _animator.SetTrigger(StringConsts.RUP);
+                _animator.SetTrigger(StringConsts.UP);
             }
-            else if(_lastDirection == Vector2Int.down && direction == Vector2Int.right)
+            else if (direction == Vector2Int.left || direction == Vector2Int.right)
             {
-                _animator.SetTrigger(StringConsts.RDOWN);
-            }
-            else if(_lastDirection == Vector2Int.up && direction == Vector2Int.left)
-            {
-                _animator.SetTrigger(StringConsts.LUP);
-            }
-            else if(_lastDirection == Vector2Int.down && direction == Vector2Int.left)
-            {
-                _animator.SetTrigger(StringConsts.LDOWN);
+                _animator.SetTrigger(StringConsts.SIDE);
             }
         }
 
-        _position = position;
-        Coordinates updated = _grid.SetCoordinates(_position);
+        if (_isLast)
+        {
+            _snakeTail.Move(transform.position, _lastDirection);
+        }
+        else
+        {
+            _nextBody?.Move(transform.position, _lastDirection);
+        }
 
-        _position = updated.clampedPosition;
-        transform.position = updated.gridPosition;
+        _lastDirection = direction;
+
+        transform.position = position;
     }
 
-    public void SetGrid(GridSystem grid)
+    public Vector2Int NextInLine()
     {
-        _grid = grid;
+        return transform.position
     }
-}
 
+    public void ConnectTail(bool isLast, Snaketail snaketail)
+    {
+        _isLast = isLast;
+        _snakeTail = snaketail;
+    }
 
-public struct Directions
-{
-    public Vector2Int LastDirection;
-    public Vector2Int NewDirection;
+    public void SetNext(Snakebody nextBody)
+    {
+        _nextBody = nextBody;
+    }
 }
