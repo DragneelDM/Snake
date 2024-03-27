@@ -109,7 +109,7 @@ MonoBehaviour:
   _snakeBody: {fileID: 1271228298129666409, guid: de9b56c255135b646970fbb58a125519, type: 3}
   _snakeTailPrefab: {fileID: 3672892247122418527, guid: 34d1610648c7db7448fd79e2cbbc482f, type: 3}
   _currentBody: []
-  _bodySize: 3
+  _bodySize: 2
 --- !u!95 &6622875732797413343
 Animator:
   serializedVersion: 5

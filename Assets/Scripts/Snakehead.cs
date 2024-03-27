@@ -69,8 +69,6 @@ public class Snakehead : MonoBehaviour
     private void Start()
     {
         OnIntegerValueChanged += ChangeBodySize;
-
-
         CreateBody();
     }
 
@@ -115,14 +113,14 @@ public class Snakehead : MonoBehaviour
         _currentBody.Clear();
 
         // Creating Body
-        for (int i = 0; i <= BodySize; i++)
+        for (int i = 1; i <= BodySize; i++)
         {
             Vector2Int bodyPosition = new(_position.x, _position.y - i);
             Coordinates bodyCoordinates = _grid.SetCoordinates(bodyPosition);
 
             if (i != BodySize)
             {
-                _currentBody.Add (
+                _currentBody.Add(
                     Instantiate(_snakeBody, bodyCoordinates.gridPosition, transform.rotation)
                 );
             }
@@ -133,7 +131,7 @@ public class Snakehead : MonoBehaviour
         }
 
         // Setting Tail
-        _currentBody[BodySize - 1].ConnectTail(true, _snakeTail);
+        _currentBody[BodySize - 2].ConnectTail(_snakeTail);
 
         // Connecting References
         for (int i = 0; i < _currentBody.Count - 1; i++)
@@ -163,15 +161,17 @@ public class Snakehead : MonoBehaviour
         int currentSize = _currentBody.Count;
         if (newValue > currentSize)
         {
+            print(newValue - currentSize);
             // Add new bodies
-            for (int i = 0; i <= newValue; i++)
+            for (int i = 0; i <= newValue - currentSize; i++)
             {
-                Coordinates bodyCoordinates = _grid.SetCoordinates(_position);
-                Snakebody snakeBody = Instantiate(_snakeBody, bodyCoordinates.gridPosition, transform.rotation);
-                _currentBody.Add(snakeBody);
-                snakeBody.SetNext(_currentBody[0]); // Connect the new body to the current first body
-                _currentBody.Insert(0, snakeBody); // Insert the new body at the beginning of the list
+                Snakebody lastBody = _currentBody[_currentBody.Count - 1];
+                lastBody.DeleteTail();
+                Snakebody snakeBody = Instantiate(_snakeBody, lastBody.TailPosition(), lastBody.transform.rotation);
+                snakeBody.SetNext(_currentBody[0]);
+                _currentBody.Insert(0, snakeBody);
             }
+            _currentBody[_currentBody.Count - 1].ConnectTail(_snakeTail);
         }
         else if (newValue < currentSize)
         {
@@ -181,16 +181,16 @@ public class Snakehead : MonoBehaviour
                 int lastIndex = _currentBody.Count - 1;
 
                 Snakebody removedBody = _currentBody[lastIndex];
-                _currentBody.RemoveAt(lastIndex); 
-                Destroy(removedBody.gameObject); 
+                _currentBody.RemoveAt(lastIndex);
+                Destroy(removedBody.gameObject);
 
                 _currentBody[lastIndex - 1].SetNext(null);
             }
 
-            _currentBody[BodySize - 1].ConnectTail(true, _snakeTail);
+            _currentBody[BodySize - 1].ConnectTail(_snakeTail);
         }
 
-        Debug.Log("Body size changed to: " + newValue);
+        print($"Body size changed to: {newValue}");
     }
 
 

@@ -9,6 +9,7 @@ public class Stage : MonoBehaviour
     [SerializeField] private int _snakeLength = 3;
     [SerializeField] private GameObject _cell;
     [SerializeField] private Snakehead Snake;
+    [SerializeField] private ItemSpawner _itemSpawner;
 
     private static GridSystem _grid;
     public static GridSystem Grid { get { return _grid; } }

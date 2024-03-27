@@ -29,11 +29,6 @@ public class Snakebody : MonoBehaviour
 
     public void Move(Vector3 position, Vector2Int direction)
     {
-        if (_directionTriggerMap.TryGetValue((_lastDirection, direction), out string trigger))
-        {
-            _animator.SetTrigger(trigger);
-        }
-
         if (direction == _lastDirection)
         {
             if (direction == Vector2Int.up || direction == Vector2Int.down)
@@ -44,6 +39,12 @@ public class Snakebody : MonoBehaviour
             {
                 _animator.SetTrigger(StringConsts.SIDE);
             }
+        }
+        else
+
+        if (_directionTriggerMap.TryGetValue((_lastDirection, direction), out string animTrigger))
+        {
+            _animator.SetTrigger(animTrigger);
         }
 
         if (_isLast)
@@ -60,19 +61,33 @@ public class Snakebody : MonoBehaviour
         transform.position = position;
     }
 
-    public Vector2Int NextInLine()
+    public void ConnectTail(Snaketail snaketail)
     {
-        return transform.position
+        _isLast = true;
+        _snakeTail = snaketail;
     }
 
-    public void ConnectTail(bool isLast, Snaketail snaketail)
+    public void DeleteTail()
     {
-        _isLast = isLast;
-        _snakeTail = snaketail;
+        _isLast = false;
+        _snakeTail = null;
+    }
+
+    public Vector3 TailPosition()
+    {
+        return new Vector3(transform.position.x + _lastDirection.x, transform.position.y + _lastDirection.y);
     }
 
     public void SetNext(Snakebody nextBody)
     {
         _nextBody = nextBody;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.TryGetComponent<Snakehead>(out Snakehead snakehead))
+        {
+            LevelManager.Instance.EndScene();
+        }
     }
 }

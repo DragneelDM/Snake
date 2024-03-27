@@ -407,8 +407,8 @@ MonoBehaviour:
   _height: 8
   _width: 15
   _cellSize: 1.1
-  _startPos: {x: 0, y: 5}
-  _snakeLength: 2
+  _startPos: {x: 0, y: 2}
+  _snakeLength: 5
   _cell: {fileID: 3476143683009088763, guid: 087a9d8dde2fc4d4f8a09ba28f71b888, type: 3}
   Snake: {fileID: 8461811752817155191, guid: e7200996ed08a0a4f8aee6dc01388374, type: 3}
 --- !u!114 &476672782
@@ -677,6 +677,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 812121447}
+  - component: {fileID: 812121448}
+  - component: {fileID: 812121449}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -699,6 +701,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &812121448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812121446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbcb3b3c820b42d4b9460518b5f9d94d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &812121449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812121446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b0bb76f12a4b6f46b7caeec2ae905aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1083641962
 GameObject:
   m_ObjectHideFlags: 0
@@ -818,6 +844,10 @@ PrefabInstance:
     - target: {fileID: 1116975993386261255, guid: e166bc542c9b4cd4c9ada781d8fa4659, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2051321138842990064, guid: e166bc542c9b4cd4c9ada781d8fa4659, type: 3}
+      propertyPath: _value
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2171704211342179917, guid: e166bc542c9b4cd4c9ada781d8fa4659, type: 3}
       propertyPath: m_Name
