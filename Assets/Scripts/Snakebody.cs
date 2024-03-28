@@ -87,7 +87,7 @@ public class Snakebody : MonoBehaviour
     {
         if(collision.TryGetComponent<Snakehead>(out Snakehead snakehead))
         {
-            LevelManager.Instance.EndScene();
+            LevelManager.Instance.EndScene(Reason.Ate ,snakehead.IsFirst);
         }
     }
 }

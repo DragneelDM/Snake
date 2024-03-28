@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8bc4db4d1c7ef1442bb59ca4b62225a4
+guid: 613f5ee094a96a14eaacf21a5aa289ae
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -149,13 +149,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 10 Border 01_0
+      name: Browser Games - Tom and Jerry Food FightFood Free-For-All - Jelly_0
       rect:
         serializedVersion: 2
-        x: 129
-        y: 64
-        width: 62
-        height: 63
+        x: 7
+        y: 0
+        width: 71
+        height: 61
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -163,8 +163,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c674319526030734f927e88103851cf5
-      internalID: 765260021
+      spriteID: 2c6ef37542091b540b1aa3e3e3057310
+      internalID: -952813728
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Browser Games - Tom and Jerry Food FightFood Free-For-All - Jelly_1
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 0
+        width: 78
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b699168da07f564a9c1e6474759671f
+      internalID: -1677118761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Browser Games - Tom and Jerry Food FightFood Free-For-All - Jelly_2
+      rect:
+        serializedVersion: 2
+        x: 177
+        y: 0
+        width: 71
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03381fbd778883447847f23e23a8e33b
+      internalID: -537385058
       vertices: []
       indices: 
       edges: []
@@ -180,7 +222,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      10 Border 01_0: 765260021
+      Browser Games - Tom and Jerry Food FightFood Free-For-All - Jelly_0: -952813728
+      Browser Games - Tom and Jerry Food FightFood Free-For-All - Jelly_1: -1677118761
+      Browser Games - Tom and Jerry Food FightFood Free-For-All - Jelly_2: -537385058
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

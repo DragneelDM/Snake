@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class Snaketail : MonoBehaviour
 {
-    private Vector2Int _position;
-    private Vector2Int _lastDirection = Vector2Int.up;
     private Dictionary<Vector2Int, string> _directionTriggerMap = new()
     {
         { Vector2Int.up, StringConsts.UP },
@@ -22,7 +20,6 @@ public class Snaketail : MonoBehaviour
             _animator.SetTrigger(trigger);
         }
         
-        _lastDirection = direction;
         transform.position = position;
     }
 
@@ -30,7 +27,7 @@ public class Snaketail : MonoBehaviour
     {
         if(collision.TryGetComponent<Snakehead>(out Snakehead snakehead))
         {
-            LevelManager.Instance.EndScene();
+            LevelManager.Instance.EndScene(Reason.Ate ,snakehead.IsFirst);
         }
     }
 }

@@ -8,23 +8,8 @@ public class Snakehead : MonoBehaviour
     [SerializeField] private Vector2Int _direction = Vector2Int.up;
     [SerializeField] private Vector2Int _lastDirection = Vector2Int.up;
     [SerializeField] private Vector2Int _position;
-
-    // Hashmaps
-    private Dictionary<KeyCode, Vector2Int> _inputDirectionMap = new()
-    {
-        { KeyCode.W, Vector2Int.up },
-        { KeyCode.A, Vector2Int.left },
-        { KeyCode.S, Vector2Int.down },
-        { KeyCode.D, Vector2Int.right }
-    };
-
-    private Dictionary<Vector2Int, string> _directionTriggerMap = new()
-    {
-        { Vector2Int.up, StringConsts.UP },
-        { Vector2Int.left, StringConsts.LEFT },
-        { Vector2Int.down, StringConsts.DOWN },
-        { Vector2Int.right, StringConsts.RIGHT }
-    };
+    
+    private Dictionary<KeyCode, Vector2Int> _inputMap;
 
     [Space(15)]
     [Header("| Timer ")]
@@ -44,10 +29,11 @@ public class Snakehead : MonoBehaviour
     [SerializeField] private Snakebody _snakeBody;
     [SerializeField] private Snaketail _snakeTailPrefab;
     private Snaketail _snakeTail;
-    [SerializeField] private List<Snakebody> _currentBody = new List<Snakebody>();
+    private List<Snakebody> _currentBody = new List<Snakebody>();
 
     // Offset
     [SerializeField, Range(1, 10)] private int _bodySize = 3;
+    public bool IsFirst;
 
     public delegate void BodySizeChangedEventHandler(int newValue);
     public event BodySizeChangedEventHandler OnIntegerValueChanged;
@@ -70,11 +56,12 @@ public class Snakehead : MonoBehaviour
     {
         OnIntegerValueChanged += ChangeBodySize;
         CreateBody();
+        _inputMap = IsFirst ? StringConsts._snake1InputMap : StringConsts._snake2InputMap;
     }
 
     private void Update()
     {
-        foreach (var input in _inputDirectionMap)
+        foreach (var input in _inputMap)
         {
             if (Input.GetKeyDown(input.Key))
             {
@@ -142,7 +129,7 @@ public class Snakehead : MonoBehaviour
 
     private void Move(Vector2Int direction)
     {
-        _animator.SetTrigger(_directionTriggerMap[_direction]);
+        _animator.SetTrigger(StringConsts._directionTriggerMap[_direction]);
 
         // Telling child to move
         _currentBody[0].Move(transform.position, direction);
@@ -200,11 +187,13 @@ public class Snakehead : MonoBehaviour
         return newDirection + _lastDirection != Vector2Int.zero;
     }
 
-    public void SetUp(Vector2Int position, int initialSize, GridSystem grid)
+    public void SetUp(Vector2Int position, int initialSize, GridSystem grid, bool isFirst)
     {
         _grid = grid;
         _position = position;
         _bodySize = initialSize;
+        IsFirst = isFirst;
+
     }
 
 }

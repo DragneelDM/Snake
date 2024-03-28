@@ -8,6 +8,7 @@ public class Item : MonoBehaviour
         if(collision.TryGetComponent<Snakehead>(out Snakehead snakehead))
         {
             snakehead.BodySize += _value;
+            LevelManager.Instance.UpdateUI(_value, snakehead.IsFirst);
             Destroy(gameObject);
         }
     }
