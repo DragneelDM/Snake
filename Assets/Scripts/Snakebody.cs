@@ -75,7 +75,7 @@ public class Snakebody : MonoBehaviour
 
     public Vector3 TailPosition()
     {
-        return new Vector3(transform.position.x + _lastDirection.x, transform.position.y + _lastDirection.y);
+        return new Vector3(transform.position.x - _lastDirection.x, transform.position.y - _lastDirection.y);
     }
 
     public void SetNext(Snakebody nextBody)
@@ -85,9 +85,9 @@ public class Snakebody : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.TryGetComponent<Snakehead>(out Snakehead snakehead))
+        if (collision.TryGetComponent<Snakehead>(out Snakehead snakehead))
         {
-            LevelManager.Instance.EndScene(Reason.Ate ,snakehead.IsFirst);
+            LevelManager.Instance.EndScene(Reason.AteEnemy, snakehead.IsFirst);
         }
     }
 }

@@ -8,7 +8,7 @@ public class Snakehead : MonoBehaviour
     [SerializeField] private Vector2Int _direction = Vector2Int.up;
     [SerializeField] private Vector2Int _lastDirection = Vector2Int.up;
     [SerializeField] private Vector2Int _position;
-    
+
     private Dictionary<KeyCode, Vector2Int> _inputMap;
 
     [Space(15)]
@@ -87,17 +87,6 @@ public class Snakehead : MonoBehaviour
 
     private void CreateBody()
     {
-        // Clear existing bodies and tail
-        foreach (var body in _currentBody)
-        {
-            Destroy(body.gameObject);
-        }
-        if (_snakeTail != null)
-        {
-            Destroy(_snakeTail.gameObject);
-        }
-
-        _currentBody.Clear();
 
         // Creating Body
         for (int i = 1; i <= BodySize; i++)
@@ -146,9 +135,13 @@ public class Snakehead : MonoBehaviour
     private void ChangeBodySize(int newValue)
     {
         int currentSize = _currentBody.Count;
+        if (newValue - currentSize < 0)
+        {
+            LevelManager.Instance.EndScene(Reason.NoMoreBody, IsFirst);
+        }
+
         if (newValue > currentSize)
         {
-            print(newValue - currentSize);
             // Add new bodies
             for (int i = 0; i <= newValue - currentSize; i++)
             {
@@ -177,9 +170,16 @@ public class Snakehead : MonoBehaviour
             _currentBody[BodySize - 1].ConnectTail(_snakeTail);
         }
 
-        print($"Body size changed to: {newValue}");
     }
 
+    public void IncreaseSpeed(float speed)
+    {
+        _durationTime -= speed;
+        if (_durationTime < 0)
+        {
+            LevelManager.Instance.EndScene(Reason.AteFood, IsFirst);
+        }
+    }
 
     // Restricting the snake from going back on it's neck
     private bool CanChangeDirection(Vector2Int newDirection)

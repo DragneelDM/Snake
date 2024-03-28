@@ -27,7 +27,7 @@ public class Snaketail : MonoBehaviour
     {
         if(collision.TryGetComponent<Snakehead>(out Snakehead snakehead))
         {
-            LevelManager.Instance.EndScene(Reason.Ate ,snakehead.IsFirst);
+            LevelManager.Instance.EndScene(Reason.AteEnemy ,snakehead.IsFirst);
         }
     }
 }

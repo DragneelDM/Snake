@@ -6,6 +6,7 @@ public class ItemSpawner : MonoBehaviour
     [SerializeField] private Stage _stage;
     [SerializeField] private Item _feedables;
     [SerializeField] private Item _massGainer;
+    [SerializeField] private Item _massBurner;
     [SerializeField] private float _elaspsedTime;
     [SerializeField] private int _massGainerCounter = 3;
     [SerializeField] private int _massGainerIteration = 0;
@@ -31,8 +32,14 @@ public class ItemSpawner : MonoBehaviour
         {
             Coordinates coordinates = Stage.Grid.SetCoordinates(new Vector2Int(width, height));
 
-            Item instantiate = _massGainerCounter > _massGainerIteration ? _massGainer : _feedables;
+            Item instantiate = _massGainerCounter < _massGainerIteration ? _massGainer : _feedables;
             _massGainerIteration++;
+            
+            if(_massGainerCounter + 2 < _massGainerIteration)
+            {
+                instantiate = _massBurner;  
+                _massGainerIteration = 0;
+            }
 
             Instantiate(instantiate, coordinates.gridPosition, Quaternion.identity);
 
