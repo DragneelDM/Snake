@@ -1,4 +1,4 @@
-# Snake Game Readme
+# Snake Game
 
 Welcome to the Snake game! This project aims to recreate the classic Nokia Snake game with additional features and enhancements using Unity.
 
